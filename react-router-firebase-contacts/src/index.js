@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
+import App, { loader as rootLoader, action as rootAction } from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 // router
@@ -9,7 +9,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // route components
 import ErrorPage from "./routes/error/error-page.component";
-import Contact from "./routes/contact/contact.component";
+import Contact, {
+  loader as contactLoader,
+} from "./routes/contact/contact.component";
 
 // routes
 const router = createBrowserRouter([
@@ -17,10 +19,13 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
+    loader: rootLoader,
+    action: rootAction,
     children: [
       {
         path: "contacts/:contactId",
         element: <Contact />,
+        loader: contactLoader,
       },
     ],
   },

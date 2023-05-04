@@ -1,15 +1,15 @@
-import { Form, useParams } from "react-router-dom";
+import { Form, useParams, useLoaderData } from "react-router-dom";
+
+import { getContactById } from "../../utils/contacts/firebase-contacts";
+
+export const loader = async ({ params }) => {
+  const contact = await getContactById(params.contactId);
+  return { contact };
+};
 
 const Contact = () => {
-  const { contactId } = useParams();
-  const contact = {
-    first: "Your",
-    last: "Name",
-    avatar: "https://placekitten.com/g/200/200",
-    twitter: "your_handle",
-    notes: "Some notes",
-    favorite: true,
-  };
+  const { contact } = useLoaderData();
+
   return (
     <div id="contact">
       <div>
@@ -27,7 +27,6 @@ const Contact = () => {
           )}
           <Favorite contact={contact} />{" "}
         </h1>
-        {contactId && <p>{contactId}</p>}
         {contact.twitter && (
           <p style={{ marginTop: "1rem" }}>
             <a target="#" href={`https://twitter.com/${contact.twitter}`}>

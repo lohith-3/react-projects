@@ -2,4 +2,15 @@
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 2rem;
+  max-width: 1400px;
+  width: 100vw;
+  height: 100vh;
+}
+
+#sidebar {
+  background-color: #e9ecef;
+  padding: 1rem;
+}
+#detail {
+  background-color: #f8f9fa;
 }

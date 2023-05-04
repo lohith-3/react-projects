@@ -3,7 +3,16 @@
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 import { initializeApp } from "firebase/app";
-import { collection, getFirestore, getDocs } from "firebase/firestore";
+import {
+  collection,
+  getFirestore,
+  getDocs,
+  addDoc,
+  query,
+  where,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -34,3 +43,64 @@ export function getData() {
     console.log(contacts);
   });
 }
+
+// Getting the documents
+export const getContacts = () => {
+  const res = getDocs(contactsCollectionRef).then((data) => {
+    let contacts = [];
+
+    data.docs.forEach((contact) => {
+      contacts.push({ ...contact.data(), id: contact.id });
+    });
+    return contacts;
+  });
+  return res;
+};
+
+// Get the document by Id
+export const getContactById = async (contactId) => {
+  // const q = query(collection(db, "contacts"), where("first", "==", "Rachel"));
+  // debugger;
+  // const res = getDocs(q).then((snapshot) => {
+  //   let contact = [];
+  //   snapshot.forEach((doc) => {
+  //     console.log(doc.data());
+  //     contact.push({ ...doc.data(), id: doc.id });
+  //   });
+  //   return contact;
+  // });
+  // debugger;
+  // return res;
+
+  const docRef = doc(db, "contacts", contactId);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    return docSnap.data();
+  }
+};
+
+// Setting the documents
+export const createContact = () => {
+  const res = addDoc(contactsCollectionRef, {
+    first: "Your",
+    last: "Name",
+    avatar: "https://placekitten.com/g/200/200",
+    twitter: "your_handle@twitter.com",
+    favorite: true,
+  }).then(() => getContacts());
+  return res;
+};
+
+// onSnapshot(contactsCollectionRef, (snapshot) => {
+//   let contacts = [];
+//   snapshot.docs.forEach((doc) => {
+//     contacts.push({ ...doc.data(), id: doc.id });
+//   });
+//   getContacts(contacts);
+// });
+
+// export const getContacts = async () => {
+//   const docSnap = await getDocs(contactsCollectionRef);
+//   console.log(docSnap.data());
+// };
