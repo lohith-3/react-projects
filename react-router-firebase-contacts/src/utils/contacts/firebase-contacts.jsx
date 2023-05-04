@@ -12,6 +12,7 @@ import {
   where,
   doc,
   getDoc,
+  updateDoc,
 } from "firebase/firestore";
 
 // Your web app's Firebase configuration
@@ -88,7 +89,17 @@ export const createContact = () => {
     avatar: "https://placekitten.com/g/200/200",
     twitter: "your_handle@twitter.com",
     favorite: true,
-  }).then(() => getContacts());
+  }).then((docRef) => docRef.id);
+  return res;
+};
+
+// updating the document by Id
+export const updateContactById = (contactId, updateObj) => {
+  const docRef = doc(db, "contacts", contactId);
+
+  const res = updateDoc(docRef, { ...updateObj, favorite: true }).then(() =>
+    getContacts()
+  );
   return res;
 };
 
