@@ -1,8 +1,21 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useLoaderData, Form } from "react-router-dom";
+
+import { getContacts, createContact } from "./utils/contacts/firebase-contacts";
 
 import "./App.css";
 
+export const loader = async () => {
+  const contacts = await getContacts();
+  return { contacts };
+};
+
+export const action = async () => {
+  const contact = await createContact();
+  return { contact };
+};
+
 const App = () => {
+  const { contacts } = useLoaderData();
   return (
     <div className="contacts-container">
       <div id="sidebar">
@@ -19,19 +32,32 @@ const App = () => {
             <div id="search-spinner" aria-hidden hidden={true} />
             <div className="sr-only" aria-live="polite"></div>
           </form>
-          <form method="post">
+          <Form method="post">
             <button type="submit">New</button>
-          </form>
+          </Form>
         </div>
         <nav>
-          <ul>
-            <li>
-              <Link to={`/contacts/1`}>Your Name</Link>
-            </li>
-            <li>
-              <Link to={`/contacts/2`}>Your Friend</Link>
-            </li>
-          </ul>
+          {contacts.length ? (
+            <ul>
+              {contacts.map((contact) => {
+                return (
+                  <li key={contact.id}>
+                    <Link to={`contacts/${contact.id}`}>
+                      {contact.first || contact.last ? (
+                        <>
+                          {contact.first} {contact.last}
+                        </>
+                      ) : (
+                        <i>No Name</i>
+                      )}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+            <p>No Contacts Found</p>
+          )}
         </nav>
       </div>
       <div id="detail">
