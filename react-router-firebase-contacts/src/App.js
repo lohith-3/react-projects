@@ -1,4 +1,4 @@
-import { Outlet, Link, useLoaderData, Form } from "react-router-dom";
+import { Outlet, Link, useLoaderData, Form, redirect } from "react-router-dom";
 
 import { getContacts, createContact } from "./utils/contacts/firebase-contacts";
 
@@ -10,8 +10,8 @@ export const loader = async () => {
 };
 
 export const action = async () => {
-  const contact = await createContact();
-  return { contact };
+  const contactId = await createContact();
+  return redirect(`/contacts/${contactId}/edit`);
 };
 
 const App = () => {
