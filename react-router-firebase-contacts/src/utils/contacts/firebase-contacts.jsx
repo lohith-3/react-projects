@@ -13,6 +13,7 @@ import {
   doc,
   getDoc,
   updateDoc,
+  deleteDoc,
 } from "firebase/firestore";
 
 // Your web app's Firebase configuration
@@ -41,7 +42,6 @@ export function getData() {
     data.docs.forEach((contact) => {
       contacts.push({ ...contact.data(), id: contact.id });
     });
-    console.log(contacts);
   });
 }
 
@@ -101,6 +101,15 @@ export const updateContactById = (contactId, updateObj) => {
     getContacts()
   );
   return res;
+};
+
+// deleting the document by Id
+export const deleteContactById = (contactId) => {
+  const docRef = doc(db, "contacts", contactId);
+
+  // const res = deleteDoc(docRef).then(() => getContacts());
+  // return res;
+  deleteDoc(docRef);
 };
 
 // onSnapshot(contactsCollectionRef, (snapshot) => {

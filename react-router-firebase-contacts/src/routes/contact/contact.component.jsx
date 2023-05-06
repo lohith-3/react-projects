@@ -3,15 +3,12 @@ import { Form, useParams, useLoaderData } from "react-router-dom";
 import { getContactById } from "../../utils/contacts/firebase-contacts";
 
 export const loader = async ({ params }) => {
-  debugger;
   const contact = await getContactById(params.contactId);
   return { contact };
 };
 
 const Contact = () => {
-  debugger;
   const { contact } = useLoaderData();
-  console.log(contact);
 
   return (
     <div id="contact">
