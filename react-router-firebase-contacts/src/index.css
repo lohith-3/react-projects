@@ -7,3 +7,29 @@
 body {
   margin: 2rem;
 }
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+ul {
+  list-style-type: none;
+}
+
+ul li {
+  margin: 0.5rem 0;
+}
+
+.active {
+  color: #fff;
+  background-color: #4c6ef5;
+}
+.pending {
+  color: red;
+}
+#detail.loading {
+  opacity: 0.25;
+  transition: opacity 200ms;
+  transition-delay: 200ms;
+}

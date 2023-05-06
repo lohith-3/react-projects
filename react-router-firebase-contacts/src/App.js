@@ -1,4 +1,12 @@
-import { Outlet, Link, useLoaderData, Form, redirect } from "react-router-dom";
+import {
+  Outlet,
+  Link,
+  useLoaderData,
+  Form,
+  redirect,
+  NavLink,
+  useNavigation,
+} from "react-router-dom";
 
 import { getContacts, createContact } from "./utils/contacts/firebase-contacts";
 
@@ -16,11 +24,12 @@ export const action = async () => {
 
 const App = () => {
   const { contacts } = useLoaderData();
+  const navigation = useNavigation();
   return (
     <div className="contacts-container">
       <div id="sidebar">
         <h1>React Router Contacts</h1>
-        <div>
+        <div style={{ display: "flex", gap: "0.5rem" }}>
           <form id="search-form" role="search">
             <input
               id="q"
@@ -32,8 +41,10 @@ const App = () => {
             <div id="search-spinner" aria-hidden hidden={true} />
             <div className="sr-only" aria-live="polite"></div>
           </form>
-          <Form method="post">
-            <button type="submit">New</button>
+          <Form method="post" style={{ flex: " 1 1 auto" }}>
+            <button type="submit" style={{ width: "100%" }}>
+              New
+            </button>
           </Form>
         </div>
         <nav>
@@ -42,7 +53,12 @@ const App = () => {
               {contacts.map((contact) => {
                 return (
                   <li key={contact.id}>
-                    <Link to={`contacts/${contact.id}`}>
+                    <NavLink
+                      to={`contacts/${contact.id}`}
+                      className={({ isActive, isPending }) =>
+                        isActive ? "active" : isPending ? "pending" : ""
+                      }
+                    >
                       {contact.first || contact.last ? (
                         <>
                           {contact.first} {contact.last}
@@ -50,7 +66,7 @@ const App = () => {
                       ) : (
                         <i>No Name</i>
                       )}
-                    </Link>
+                    </NavLink>
                   </li>
                 );
               })}
@@ -60,7 +76,10 @@ const App = () => {
           )}
         </nav>
       </div>
-      <div id="detail">
+      <div
+        id="detail"
+        className={navigation.state === "loading" ? "loading" : ""}
+      >
         <Outlet />
       </div>
     </div>

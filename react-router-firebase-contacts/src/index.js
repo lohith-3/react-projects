@@ -16,6 +16,10 @@ import EditContact, {
   loader as editContactLoader,
   action as editActionLoader,
 } from "./routes/edit/edit.component";
+import Destroy, {
+  action as deleteAction,
+} from "./routes/destroy/destroy.component.jsx";
+import Index from "./routes/index/index.component";
 
 // routes
 const router = createBrowserRouter([
@@ -26,6 +30,7 @@ const router = createBrowserRouter([
     loader: rootLoader,
     action: rootAction,
     children: [
+      { index: true, element: <Index /> },
       {
         path: "contacts/:contactId",
         element: <Contact />,
@@ -36,6 +41,11 @@ const router = createBrowserRouter([
         element: <EditContact />,
         loader: editContactLoader,
         action: editActionLoader,
+      },
+      {
+        path: "contacts/:contactId/destroy",
+        action: deleteAction,
+        errorElement: <Destroy />,
       },
     ],
   },
