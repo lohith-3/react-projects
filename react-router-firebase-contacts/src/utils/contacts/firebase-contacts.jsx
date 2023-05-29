@@ -14,6 +14,8 @@ import {
   getDoc,
   updateDoc,
   deleteDoc,
+  Query,
+  onSnapshot,
 } from "firebase/firestore";
 
 // Your web app's Firebase configuration
@@ -58,6 +60,16 @@ export const getContacts = () => {
   return res;
 };
 
+// real time collection data
+export const searchParam = (param) =>
+  query(contactsCollectionRef, where("first", "==", "param"));
+
+
+onSnapshot(searchParam(), fetchContacts)
+
+function fetchContacts() {
+
+}
 // Get the document by Id
 export const getContactById = async (contactId) => {
   // const q = query(collection(db, "contacts"), where("first", "==", "Rachel"));
