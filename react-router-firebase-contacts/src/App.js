@@ -30,7 +30,7 @@ const App = () => {
       <div id="sidebar">
         <h1>React Router Contacts</h1>
         <div style={{ display: "flex", gap: "0.5rem" }}>
-          <form id="search-form" role="search">
+          <Form id="search-form" role="search">
             <input
               id="q"
               aria-label="Search contacts"
@@ -40,7 +40,7 @@ const App = () => {
             />
             <div id="search-spinner" aria-hidden hidden={true} />
             <div className="sr-only" aria-live="polite"></div>
-          </form>
+          </Form>
           <Form method="post" style={{ flex: " 1 1 auto" }}>
             <button type="submit" style={{ width: "100%" }}>
               New
